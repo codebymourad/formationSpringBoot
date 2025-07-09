@@ -23,12 +23,11 @@ public class BookController {
 
     @GetMapping("/hello")
     public String hello() {
-        System.out.println("hello wolrd ");
-        return "hello wolrd";
+        System.out.println("hello world ");
+        return "hello world";
     }
 
-    @GetMapping(path = "/books")
-    // public List<Book> getBooks() { return bookService.getBooks();}
+    @GetMapping("/books")
     public ResponseEntity<?> getBooks() {
         try {
             return new ResponseEntity<List<Book>>(bookService.getBooks(), HttpStatus.OK);
@@ -38,7 +37,7 @@ public class BookController {
         }
     }
 
-    @GetMapping(path = "/books/{id}", produces = "application/json")
+    @GetMapping("/books/{id}")
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
         try {
             return new ResponseEntity<Book>(bookService.getBookById(id), HttpStatus.OK);
@@ -51,7 +50,7 @@ public class BookController {
         }
     }
 
-    @PostMapping(path = "/books", produces = "application/json")
+    @PostMapping("/books")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         try {
             return new ResponseEntity<Book>(bookService.addBook(book), HttpStatus.CREATED);
@@ -61,7 +60,7 @@ public class BookController {
         }
     }
 
-    @PutMapping(path = "/books/{id}", produces = "application/json")
+    @PutMapping("/books/{id}")
     public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody Book book) {
         try {
             return new ResponseEntity<Book>(bookService.updateBook(book, id), HttpStatus.OK);
@@ -74,7 +73,7 @@ public class BookController {
         }
     }
 
-    @DeleteMapping(path = "/books/{id}", produces = "application/json")
+    @DeleteMapping("/books/{id}")
     public ResponseEntity<?> deleteBookById(@PathVariable Long id) {
         try {
             bookService.deleteBookById(id);
@@ -88,7 +87,7 @@ public class BookController {
         }
     }
 
-    @DeleteMapping(path = "/books", produces = "application/json")
+    @DeleteMapping("/books")
     public ResponseEntity<?> deleteBooks() {
         try {
             bookService.deleteBooks();
