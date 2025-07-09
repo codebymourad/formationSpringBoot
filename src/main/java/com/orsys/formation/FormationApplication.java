@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FormationApplication {
 
 	public static void main(String[] args) {
-		System.out.println("hello woooorld");
+
 		SpringApplication.run(FormationApplication.class, args);
 	}
 
