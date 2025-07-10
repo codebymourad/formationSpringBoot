@@ -58,7 +58,7 @@ public class BookController {
             return new ResponseEntity<BookResponseDTO>(bookService.addBook(book), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(" ERROR : " + e);
-            return new ResponseEntity<>("toto", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -2,6 +2,8 @@ package com.orsys.formation.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.context.annotation.Primary;
 
 @Entity
@@ -13,6 +15,7 @@ public class Book {
     private Long id;
 
     @Column(name="title")
+    @Size(min = 5, max = 120)
     private String title;
 
     @Column(name="description")
