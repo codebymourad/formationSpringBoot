@@ -20,6 +20,10 @@ public class Book {
     @Column(name="publish")
     private Boolean publish;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     public Book() {}
 
     public Book(String title, String description, Boolean publish) {
@@ -33,6 +37,14 @@ public class Book {
         this.title = title;
         this.description = description;
         this.publish = publish;
+    }
+
+    public Book(Long id, String title, String description, Boolean publish, Category category) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.publish = publish;
+        this.category = category;
     }
 
     public Long getId() {
@@ -65,5 +77,24 @@ public class Book {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", publish=" + publish +
+                ", category=" + category +
+                '}';
     }
 }

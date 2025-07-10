@@ -1,5 +1,7 @@
 package com.orsys.formation.controllers;
 
+import com.orsys.formation.dto.request.BookRequestDTO;
+import com.orsys.formation.dto.response.BookResponseDTO;
 import com.orsys.formation.models.Book;
 import com.orsys.formation.services.BookService;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,17 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "api/v1")
 public class BookController {
 
-    private BookService bookService;
-
     @Autowired
-    public BookController (BookService bookService) {
-        this.bookService = bookService;
-    }
+    private BookService bookService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -30,7 +29,8 @@ public class BookController {
     @GetMapping("/books")
     public ResponseEntity<?> getBooks() {
         try {
-            return new ResponseEntity<List<Book>>(bookService.getBooks(), HttpStatus.OK);
+            // return new ResponseEntity<List<Book>>(bookService.getBooks(), HttpStatus.OK);
+            return new ResponseEntity<Stream<BookResponseDTO>>(bookService.getBooks(), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(" ERROR : " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,7 +40,8 @@ public class BookController {
     @GetMapping("/books/{id}")
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<Book>(bookService.getBookById(id), HttpStatus.OK);
+//            return new ResponseEntity<Book>(bookService.getBookById(id), HttpStatus.OK);
+            return new ResponseEntity<BookResponseDTO>(bookService.getBookById(id), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             System.out.println(" ERROR : " + e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -51,9 +52,10 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public ResponseEntity<?> addBook(@RequestBody Book book) {
+    public ResponseEntity<?> addBook(@RequestBody BookRequestDTO book) {
         try {
-            return new ResponseEntity<Book>(bookService.addBook(book), HttpStatus.CREATED);
+//            return new ResponseEntity<Book>(bookService.addBook(book), HttpStatus.CREATED);
+            return new ResponseEntity<BookResponseDTO>(bookService.addBook(book), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(" ERROR : " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
