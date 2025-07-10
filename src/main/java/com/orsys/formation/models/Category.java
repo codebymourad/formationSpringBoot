@@ -1,5 +1,6 @@
 package com.orsys.formation.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,8 +16,9 @@ public class Category {
     @Column(name="title")
     private String title;
 
-//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Book> books;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Book> books;
 
     public Category() {}
 
@@ -28,12 +30,6 @@ public class Category {
         this.id = id;
         this.title = title;
     }
-
-//    public Category(Long id, String title, List<Book> books) {
-//        this.id = id;
-//        this.title = title;
-//        this.books = books;
-//    }
 
     public Long getId() {
         return id;
@@ -51,11 +47,11 @@ public class Category {
         this.title = title;
     }
 
-//    public List<Book> getBooks() {
-//        return books;
-//    }
-//
-//    public void setBooks(List<Book> books) {
-//        this.books = books;
-//    }
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 }

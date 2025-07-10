@@ -1,5 +1,6 @@
 package com.orsys.formation.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Primary;
 
@@ -22,6 +23,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
     private Category category;
 
     public Book() {}
