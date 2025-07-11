@@ -4,6 +4,7 @@ import com.orsys.formation.dto.request.BookRequestDTO;
 import com.orsys.formation.dto.response.BookResponseDTO;
 import com.orsys.formation.models.Book;
 import com.orsys.formation.services.BookService;
+import com.orsys.formation.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/hello")
     public String hello() {
         System.out.println("hello world ");
@@ -27,7 +31,11 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public ResponseEntity<?> getBooks() {
+    public ResponseEntity<?> getBooks(@RequestHeader(value = "X-API-KEY", required = true) String apikey) {
+        if(!userService.isValidApikey(apikey) || apikey.isBlank()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             // return new ResponseEntity<List<Book>>(bookService.getBooks(), HttpStatus.OK);
             return new ResponseEntity<Stream<BookResponseDTO>>(bookService.getBooks(), HttpStatus.OK);
@@ -58,7 +66,7 @@ public class BookController {
             return new ResponseEntity<BookResponseDTO>(bookService.addBook(book), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(" ERROR : " + e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
