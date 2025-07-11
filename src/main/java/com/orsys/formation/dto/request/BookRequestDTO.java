@@ -13,6 +13,8 @@ public class BookRequestDTO {
 
     private Category category;
 
+    private Long authorId;
+
     public BookRequestDTO() {}
 
     public BookRequestDTO(String title, String description, Boolean publish) {
@@ -58,5 +60,20 @@ public class BookRequestDTO {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Long getAuthorId() { return authorId; }
+
+    public void setAuthorId(Long authorId) { this.authorId = authorId; }
+
+    @Override
+    public String toString() {
+        return "BookRequestDTO{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", publish=" + publish +
+                ", category=" + category +
+                ", authorId=" + authorId +
+                '}';
     }
 }

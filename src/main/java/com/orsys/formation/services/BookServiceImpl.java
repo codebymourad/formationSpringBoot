@@ -5,10 +5,12 @@ import com.orsys.formation.dao.CategoryDAO;
 import com.orsys.formation.dto.request.BookRequestDTO;
 import com.orsys.formation.dto.response.BookResponseDTO;
 import com.orsys.formation.mappers.BookMapper;
+import com.orsys.formation.models.AuthorDTO;
 import com.orsys.formation.models.Book;
 import com.orsys.formation.models.Category;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
+
+    @Autowired
+    private AuthorService authorService;
 
 //    @Override
 //    public List<Book> getBooks() {
@@ -54,12 +59,28 @@ public class BookServiceImpl implements BookService {
 //    }
     @Override
     public BookResponseDTO addBook(BookRequestDTO book) {
+        System.out.println(" book received : " + book);
+        System.out.println(" call to authorService ");
+
+        ResponseEntity<AuthorDTO> response = authorService.getAuthorById(book.getAuthorId());
+
+
+
+        if(!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Author not found !!! ");
+        } else {
+            System.out.println(" OKKKKIIIII ");
+            System.out.println(" authorService response : " + response.getBody().toString());
+        }
+
         Category category = categoryDAO.findById(book.getCategory().getId()).orElseThrow(
                 () -> new EntityNotFoundException("Category not found")
         );
-        Book mapper = bookMapper.toEntity(book);
-        mapper.setCategory(category);
-        Book savedBook = bookDAO.save(mapper);
+        Book _book = bookMapper.toEntity(book);
+        _book.setCategory(category);
+        _book.setAuthorId(book.getAuthorId());
+        Book savedBook = bookDAO.save(_book);
+        System.out.println(" book saved ");
         return bookMapper.toResponse(savedBook);
     }
 

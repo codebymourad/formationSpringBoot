@@ -29,6 +29,8 @@ public class Book {
     @JsonBackReference
     private Category category;
 
+    private Long authorId;
+
     public Book() {}
 
     public Book(String title, String description, Boolean publish) {
@@ -92,14 +94,8 @@ public class Book {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", publish=" + publish +
-                ", category=" + category +
-                '}';
-    }
+    public Long getAuthorId() { return authorId; }
+
+    public void setAuthorId(Long authorId) { this.authorId = authorId; }
+
 }
